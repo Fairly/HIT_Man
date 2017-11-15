@@ -2,10 +2,13 @@
 # filename: handle.py
 
 from __future__ import print_function
-from __future__ import print_function
+
 import hashlib
 import web
-import receive
+import wechatpy
+from wechatpy import parse_message
+from wechatpy.replies import create_reply
+
 import reply
 
 
@@ -38,15 +41,14 @@ class Handle(object):
         try:
             webData = web.data()
             print("Handle Post webdata is ", webData)  # 后台日志
-            recMsg = receive.parse_xml(webData)
-            if isinstance(recMsg, receive.Msg) and recMsg.MsgType == 'text':
-                toUser = recMsg.FromUserName
-                fromUser = recMsg.ToUserName
-                content = "test"
-                replyMsg = reply.TextMsg(toUser, fromUser, content)
-                return replyMsg.send()
+            recMsg = parse_message(webData)
+            if recMsg.type == 'text':
+                reply = create_reply('text reply', message=recMsg)
+                # 转换成 XML
+                xml = reply.render()
+                return xml
             else:
                 print("暂且不处理")
                 return "success"
-        except Exception as Argment:
-            return Argment
+        except Exception as Argument:
+            return Argument
