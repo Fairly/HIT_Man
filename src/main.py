@@ -43,6 +43,11 @@ app = Flask(__name__)
 # print(rtn_msg)
 
 
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
+
 @app.route('/wx', methods=['GET', 'POST'])
 def handle():
     if request.method == 'POST':
@@ -60,7 +65,29 @@ def handle():
                 return "success"
         except Exception as Argument:
             return Argument
+    if request.method == 'GET':
+        return 'From handle.get'
+
+
+@app.route('/login/', methods=["GET", "POST"])
+def login_page():
+    error = ''
+    try:
+
+        if request.method == "POST":
+
+            attempted_username = request.form['username']
+            attempted_password = request.form['password']
+
+            # flash(attempted_username)
+            # flash(attempted_password)
+
+        return 'Login success!'
+
+    except Exception as e:
+        # flash(e)
+        return e
 
 
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc')
+    app.run(host=ip, port=80)
