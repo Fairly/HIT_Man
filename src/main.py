@@ -5,7 +5,7 @@ from wechatpy import WeChatClient
 from wechatpy import parse_message
 from wechatpy.replies import create_reply
 
-from app_ import appid, secret, ip
+from .app_ import appid, secret, ip
 
 app = Flask(__name__)
 
@@ -52,7 +52,7 @@ def hello_world():
 def handle():
     if request.method == 'POST':
         try:
-            webData = request.data()
+            webData = request.data
             print("Handle Post webdata is ", webData)  # 后台日志
             recMsg = parse_message(webData)
             if recMsg.type == 'text':
@@ -67,26 +67,6 @@ def handle():
             return Argument
     if request.method == 'GET':
         return 'From handle.get'
-
-
-@app.route('/login/', methods=["GET", "POST"])
-def login_page():
-    error = ''
-    try:
-
-        if request.method == "POST":
-
-            attempted_username = request.form['username']
-            attempted_password = request.form['password']
-
-            # flash(attempted_username)
-            # flash(attempted_password)
-
-        return 'Login success!'
-
-    except Exception as e:
-        # flash(e)
-        return e
 
 
 if __name__ == '__main__':
