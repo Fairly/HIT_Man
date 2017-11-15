@@ -67,7 +67,7 @@ def message_reply():
                 xml = reply.render()
                 return xml
             elif recMsg.type == 'event':
-                handle_event(recMsg)
+                # handle_event(recMsg)
                 return 'success'
             else:
                 app.logger.warning("Unsupported message type. Do nothing.")
