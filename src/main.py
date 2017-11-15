@@ -43,17 +43,12 @@ app = Flask(__name__)
 # print(rtn_msg)
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
-
-@app.route('/wx', methods=['GET', 'POST'])
-def handle():
+@app.route('/wx', methods=['POST'])
+def message_reply():
     if request.method == 'POST':
         try:
             webData = request.data
-            print("Handle Post webdata is ", webData)  # 后台日志
+            app.logger.info("Handle Post webdata is " + webData)  # 后台日志
             recMsg = parse_message(webData)
             if recMsg.type == 'text':
                 reply = create_reply('text reply', message=recMsg)
@@ -61,12 +56,10 @@ def handle():
                 xml = reply.render()
                 return xml
             else:
-                print("暂且不处理")
+                app.logger.warning("Unsupported message type. Do nothing.")
                 return "success"
         except Exception as Argument:
             return Argument
-    if request.method == 'GET':
-        return 'From handle.get'
 
 
 if __name__ == '__main__':
