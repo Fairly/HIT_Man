@@ -25,7 +25,7 @@ rtn_msg = client.menu.create({
                     "type": "view",
                     "name": "登记",
                     # "url": "http://" + ip + "/enroll"
-                    "url": "www.qq.com"
+                    "url": "http://www.qq.com"
                 },
                 {
                     "type": "click",
