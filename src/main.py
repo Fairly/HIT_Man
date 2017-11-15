@@ -48,7 +48,7 @@ def message_reply():
     if request.method == 'POST':
         try:
             webData = request.data
-            app.logger.info("Handle Post webdata is " + webData)  # 后台日志
+            app.logger.info("Handle Post webdata is " + str(webData))  # 后台日志
             recMsg = parse_message(webData)
             if recMsg.type == 'text':
                 reply = create_reply('text reply', message=recMsg)
@@ -58,8 +58,8 @@ def message_reply():
             else:
                 app.logger.warning("Unsupported message type. Do nothing.")
                 return "success"
-        except Exception as Argument:
-            return Argument
+        except Exception as e:
+            app.logger.error(e)
 
 
 if __name__ == '__main__':
