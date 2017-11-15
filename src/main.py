@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # filename: main.py
-from flask import Flask, request
+from flask import Flask, request, redirect
 from wechatpy import WeChatClient
 from wechatpy import parse_message
 from wechatpy.replies import create_reply
@@ -48,6 +48,11 @@ def enroll():
     return 'try to enroll!'
 
 
+def handle_event(recMsg):
+    if recMsg.event == 'view':
+        redirect(recMsg.url)
+
+
 @app.route('/wx', methods=['POST'])
 def message_reply():
     if request.method == 'POST':
@@ -60,6 +65,8 @@ def message_reply():
                 # 转换成 XML
                 xml = reply.render()
                 return xml
+            elif recMsg.type == 'event':
+                handle_event(recMsg)
             else:
                 app.logger.warning("Unsupported message type. Do nothing.")
                 return "success"
