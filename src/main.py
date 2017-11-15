@@ -9,38 +9,39 @@ from .config import appid, secret, ip
 
 app = Flask(__name__)
 
-# Update the menu, uncomment if the menu needs to change
-# client = WeChatClient(appid, secret)
-# rtn_msg = client.menu.create({
-#     "button": [
-#         {
-#             "type": "click",
-#             "name": "今日??",
-#             "key": "CLICK_TODAY"
-#         },
-#         {
-#             "name": "菜单",
-#             "sub_button": [
-#                 {
-#                     "type": "view",
-#                     "name": "登记",
-#                     "url": "http://" + ip + "/enroll"
-#                 },
-#                 {
-#                     "type": "click",
-#                     "name": "赞一下我们!",
-#                     "key": "CLICK_GOOD"
-#                 }
-#             ]
-#         },
-#         {
-#             "type": "click",
-#             "name": "关于??",
-#             "key": "CLICK_ABOUT"
-#         },
-#     ]
-# })
-# print(rtn_msg)
+Update the menu, uncomment if the menu needs to change
+client = WeChatClient(appid, secret)
+rtn_msg = client.menu.create({
+    "button": [
+        {
+            "type": "click",
+            "name": "今日??",
+            "key": "CLICK_TODAY"
+        },
+        {
+            "name": "菜单",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "登记",
+                    # "url": "http://" + ip + "/enroll"
+                    "url": "www.qq.com"
+                },
+                {
+                    "type": "click",
+                    "name": "赞一下我们!",
+                    "key": "CLICK_GOOD"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "name": "关于??",
+            "key": "CLICK_ABOUT"
+        },
+    ]
+})
+print(rtn_msg)
 
 
 @app.route('/enroll')
