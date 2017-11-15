@@ -5,7 +5,7 @@ from wechatpy import WeChatClient
 from wechatpy import parse_message
 from wechatpy.replies import create_reply
 
-from .app_ import appid, secret, ip
+from .config import appid, secret, ip
 
 app = Flask(__name__)
 
@@ -17,11 +17,6 @@ app = Flask(__name__)
 #             "type": "click",
 #             "name": "今日??",
 #             "key": "CLICK_TODAY"
-#         },
-#         {
-#             "type": "click",
-#             "name": "关于??",
-#             "key": "CLICK_ABOUT"
 #         },
 #         {
 #             "name": "菜单",
@@ -37,10 +32,20 @@ app = Flask(__name__)
 #                     "key": "CLICK_GOOD"
 #                 }
 #             ]
-#         }
+#         },
+#         {
+#             "type": "click",
+#             "name": "关于??",
+#             "key": "CLICK_ABOUT"
+#         },
 #     ]
 # })
 # print(rtn_msg)
+
+
+@app.route('/enroll')
+def enroll():
+    return 'try to enroll!'
 
 
 @app.route('/wx', methods=['POST'])
