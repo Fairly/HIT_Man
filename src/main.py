@@ -50,7 +50,7 @@ def enroll():
 
 def handle_event(recMsg):
     if recMsg.event == 'view':
-        redirect(recMsg.url)
+        return redirect(recMsg.url)
 
 
 @app.route('/wx', methods=['POST'])
