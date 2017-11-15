@@ -9,7 +9,7 @@ from .config import appid, secret, ip
 
 app = Flask(__name__)
 
-Update the menu, uncomment if the menu needs to change
+# Update the menu, uncomment if the menu needs to change
 client = WeChatClient(appid, secret)
 rtn_msg = client.menu.create({
     "button": [
