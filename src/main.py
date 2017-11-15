@@ -51,7 +51,7 @@ def enroll():
 
 def handle_event(recMsg):
     if recMsg.event == 'view':
-        return redirect(recMsg.url)
+        redirect(recMsg.url)
 
 
 @app.route('/wx', methods=['POST'])
@@ -68,6 +68,7 @@ def message_reply():
                 return xml
             elif recMsg.type == 'event':
                 handle_event(recMsg)
+                return 'success'
             else:
                 app.logger.warning("Unsupported message type. Do nothing.")
                 return "success"
