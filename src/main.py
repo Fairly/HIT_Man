@@ -1,55 +1,66 @@
 # -*- coding: utf-8 -*-
 # filename: main.py
-import web
-from handle import Handle
+from flask import Flask, request
+from wechatpy import WeChatClient
+from wechatpy import parse_message
+from wechatpy.replies import create_reply
 
-urls = (
-    '/wx', 'Handle',
-)
+from app_ import appid, secret, ip
 
-# class Handle(object):
-#     def GET(self):
-#         return "hello, this is a test"
+app = Flask(__name__)
+
+# Update the menu, uncomment if the menu needs to change
+# client = WeChatClient(appid, secret)
+# rtn_msg = client.menu.create({
+#     "button": [
+#         {
+#             "type": "click",
+#             "name": "今日??",
+#             "key": "CLICK_TODAY"
+#         },
+#         {
+#             "type": "click",
+#             "name": "关于??",
+#             "key": "CLICK_ABOUT"
+#         },
+#         {
+#             "name": "菜单",
+#             "sub_button": [
+#                 {
+#                     "type": "view",
+#                     "name": "登记",
+#                     "url": "http://" + ip + "/enroll"
+#                 },
+#                 {
+#                     "type": "click",
+#                     "name": "赞一下我们!",
+#                     "key": "CLICK_GOOD"
+#                 }
+#             ]
+#         }
+#     ]
+# })
+# print(rtn_msg)
+
+
+@app.route('/wx', methods=['GET', 'POST'])
+def handle():
+    if request.method == 'POST':
+        try:
+            webData = request.data()
+            print("Handle Post webdata is ", webData)  # 后台日志
+            recMsg = parse_message(webData)
+            if recMsg.type == 'text':
+                reply = create_reply('text reply', message=recMsg)
+                # 转换成 XML
+                xml = reply.render()
+                return xml
+            else:
+                print("暂且不处理")
+                return "success"
+        except Exception as Argument:
+            return Argument
 
 
 if __name__ == '__main__':
-    app = web.application(urls, globals())
-    app.run()
-
-    from wechatpy import WeChatClient
-
-    client = WeChatClient("wx45cfb9696e261322", "e4d25ececfb46b2366a299cdbf67c337")
-    client.menu.create({
-        "button": [
-            {
-                "type": "click",
-                "name": "今日歌曲",
-                "key": "V1001_TODAY_MUSIC"
-            },
-            {
-                "type": "click",
-                "name": "歌手简介",
-                "key": "V1001_TODAY_SINGER"
-            },
-            {
-                "name": "菜单",
-                "sub_button": [
-                    {
-                        "type": "view",
-                        "name": "搜索",
-                        "url": "http://www.soso.com/"
-                    },
-                    {
-                        "type": "view",
-                        "name": "视频",
-                        "url": "http://v.qq.com/"
-                    },
-                    {
-                        "type": "click",
-                        "name": "赞一下我们",
-                        "key": "V1001_GOOD"
-                    }
-                ]
-            }
-        ]
-    })
+    app.run(ssl_context='adhoc')
