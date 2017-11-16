@@ -74,7 +74,3 @@ def message_reply():
                 return "success"
         except Exception as e:
             app.logger.error(e)
-
-
-if __name__ == '__main__':
-    app.run(host=ip, port=80)
