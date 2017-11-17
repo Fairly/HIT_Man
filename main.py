@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # filename: main.py
-from flask import Flask, request, redirect
+from flask import Flask, request, render_template
 from wechatpy import WeChatClient
 from wechatpy import parse_message
 from wechatpy.replies import create_reply
 
-from .config import appid, secret, ip
+from config import appid, secret, ip
 
 app = Flask(__name__)
 
@@ -24,8 +24,8 @@ rtn_msg = client.menu.create({
                 {
                     "type": "view",
                     "name": "登记",
-                    # "url": "http://" + ip + "/enroll"
-                    "url": "http://de.mikecrm.com/Mi3y5O0"
+                    "url": "http://" + ip + "/"
+                    # "url": "http://de.mikecrm.com/Mi3y5O0"
                 },
                 {
                     "type": "click",
@@ -44,14 +44,14 @@ rtn_msg = client.menu.create({
 print(rtn_msg)
 
 
-@app.route('/enroll')
+@app.route('/')
 def enroll():
-    return 'try to enroll!'
+    return render_template('index.html')
 
 
 def handle_event(recMsg):
     if recMsg.event == 'view':
-        redirect(recMsg.url)
+        pass
 
 
 @app.route('/wx', methods=['POST'])
@@ -67,7 +67,7 @@ def message_reply():
                 xml = reply.render()
                 return xml
             elif recMsg.type == 'event':
-                # handle_event(recMsg)
+                handle_event(recMsg)
                 return 'success'
             else:
                 app.logger.warning("Unsupported message type. Do nothing.")
